@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像グリッドレイアウター</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="control-panel">
+            <h1>画像グリッドレイアウター</h1>
+            <div class="grid-settings">
+                <label for="cols">列数:</label>
+                <input type="number" id="cols" value="3" min="1">
+                <label for="rows">行数:</label>
+                <input type="number" id="rows" value="4" min="1">
+                <button id="add-image-btn">画像を追加</button>
+                <button id="download-pdf-btn">PDFダウンロード</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <aside class="image-palette">
+                <h2>画像パレット</h2>
+                <div id="palette-images">
+                    <!-- アップロードされた画像のサムネイルがここに追加される -->
+                </div>
+            </aside>
+
+            <section class="canvas-area">
+                <h2>キャンバス (A4サイズ)</h2>
+                <div id="canvas-grid">
+                    <!-- グリッドと画像がここに追加される -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.control-panel {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.control-panel h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.grid-settings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.grid-settings label {
+    font-weight: bold;
+}
+
+.grid-settings input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #34495e;
+    color: #ecf0f1;
+}
+
+.grid-settings button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.grid-settings button:hover {
+    background-color: #2ecc71;
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.image-palette, .canvas-area {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.image-palette {
+    flex: 0 0 200px; /* 固定幅 */
+    min-width: 180px;
+    max-height: calc(100vh - 200px); /* ヘッダーとフッターを考慮 */
+    overflow-y: auto;
+}
+
+.image-palette h2, .canvas-area h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.3em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#palette-images {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.palette-thumbnail {
+    width: 100%;
+    height: 100px; /* サムネイルの高さ */
+    object-fit: contain; /* 画像全体を表示 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: grab;
+    background-color: #f9f9f9;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.canvas-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px; /* 最小の高さ */
+}
+
+#canvas-grid {
+    width: 210mm; /* A4幅 */
+    height: 297mm; /* A4高さ */
+    border: 2px dashed #ccc;
+    display: grid;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden; /* グリッド外にはみ出さないように */
+}
+
+.grid-cell {
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-cell.highlighted {
+    border: 2px solid #3498db;
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.grid-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.grid-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    pointer-events: none; /* 画像自体はドラッグ対象にしない */
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(231, 76, 60, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 1.1em;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    display: none; /* ホバーで表示 */
+    z-index: 10;
+}
+
+.grid-image-container:hover .remove-image-btn {
+    display: block;
+}
+
+/* ドラッグ中のスタイル */
+.dragging {
+    opacity: 0.5;
+    border: 2px dashed #2980b9;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .control-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .main-content {
+        flex-direction: column;
+    }
+    .image-palette {
+        width: 100%;
+        flex: none;
+        max-height: 300px;
+    }
+    .canvas-area {
+        width: 100%;
+        min-height: 400px;
+    }
+    #canvas-grid {
+        width: 100%; /* 小さい画面では幅を調整 */
+        height: auto; /* 高さは自動調整 */
+        aspect-ratio: 210 / 297; /* A4縦横比を維持 */
+    }
+}
